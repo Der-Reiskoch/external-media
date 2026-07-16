@@ -14,8 +14,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "MIT",
-  "volta": {
-    "node": "20.19.0"
-  }
+  "license": "MIT"
 }
