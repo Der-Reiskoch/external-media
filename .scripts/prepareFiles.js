@@ -8,6 +8,18 @@ function processFile(filePath) {
   const dir = path.dirname(filePath);
   const name = path.basename(filePath, path.extname(filePath));
 
+  if (path.basename(dir) === "youtube" && [".jpg", ".jpeg", ".JPG"].includes(ext)) {
+    const webpPath = path.join(dir, `${name}.webp`);
+
+    if (!fs.existsSync(webpPath) || fs.statSync(webpPath).size === 0) {
+      throw new Error(`Cannot remove YouTube JPG without a WebP counterpart: ${filePath}`);
+    }
+
+    fs.unlinkSync(filePath);
+    console.log(`Removed redundant YouTube JPG: ${filePath}`);
+    return;
+  }
+
   if (IMAGE_EXTENSIONS.includes(ext)) {
     const newPath = path.join(dir, `${name}.jpg`);
 

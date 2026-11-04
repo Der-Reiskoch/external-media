@@ -67,8 +67,9 @@ Deploy all pending media changes:
 npm run deploy
 ```
 
-This command normalizes `.JPG` and `.jpeg` extensions, stages the complete working tree, creates an `auto-deploy: added new media` commit and pushes it. Review
-`git status` before running it because it includes every pending file.
+This command normalizes `.JPG` and `.jpeg` extensions outside `youtube/`, stages the complete working tree, creates an `auto-deploy: added new media` commit and
+pushes it. Under `youtube/`, it removes a JPG only when the matching WebP exists and aborts if the WebP is missing. Review `git status` before running it because
+the deployment includes every pending file.
 
 GitHub Pages may take several minutes to publish a large media commit.
 

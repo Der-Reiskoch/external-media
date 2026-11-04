@@ -70,6 +70,9 @@ This is useful for keeping repository size manageable by removing old Git histor
 2. Run `npm run deploy` to normalize extensions and push changes
 3. Files will be available via Git URL for consumption by other applications
 
+For `youtube/`, the deploy preparation removes a JPG only when a non-empty WebP with the same basename exists. It aborts instead of deleting the only copy when
+the WebP is missing. This repository-level guard keeps stale agent sessions from reintroducing JPG copies.
+
 ### Naming Conventions
 
 - **YouTube thumbnails**: Use the video ID as filename and `.webp` as extension
