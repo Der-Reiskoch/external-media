@@ -12,9 +12,9 @@ This is a media asset repository for Der Reiskoch (The Rice Chef), a personal Th
 
 The repository is organized by media type and usage:
 
-- **youtube/** - YouTube video thumbnails (1000+ files)
-  - Files named by video ID (e.g., `2hdlc6szjZs.jpg`)
-  - Formats: .jpg, .webp
+- **youtube/** - YouTube video thumbnails
+  - Files named by video ID (e.g., `2hdlc6szjZs.webp`)
+  - Format: WebP only; do not retain the downloaded JPG source
 
 - **pins/** - Pinterest pin images organized in a hierarchical structure
   - Structure: `pins/XXXX/YYYY/pin.jpg` (4-digit categories with 4-digit subcategories)
@@ -72,7 +72,7 @@ This is useful for keeping repository size manageable by removing old Git histor
 
 ### Naming Conventions
 
-- **YouTube thumbnails**: Use video ID as filename
+- **YouTube thumbnails**: Use the video ID as filename and `.webp` as extension
 - **Shopify products**: Use Thai dish name in lowercase with underscores
 - **Flyers**: Use `YYYYMMDD_location.jpg` format
 - **Ahaan Thai**: Use Thai transliteration with underscores, organized by first letter
@@ -81,7 +81,7 @@ This is useful for keeping repository size manageable by removing old Git histor
 ### File Format Requirements
 
 - The prepareFiles script normalizes extensions to lowercase `.jpg`
-- Supported image formats: JPG/JPEG (normalized to .jpg), WebP
+- YouTube thumbnails use WebP only; other directories also support JPG/JPEG (normalized to `.jpg`)
 - Keep `.JPG` and `.jpeg` extensions when adding files; deployment will normalize them
 
 ## Important Notes

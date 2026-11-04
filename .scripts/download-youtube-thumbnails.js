@@ -2,7 +2,6 @@
 const fs = require("fs");
 const path = require("path");
 const https = require("https");
-const { execSync } = require("child_process");
 
 const CONTENT_DIR = path.resolve(__dirname, "../../ahaan-thai/content");
 const YOUTUBE_DIR = path.resolve(__dirname, "../youtube");
@@ -51,6 +50,22 @@ function download(url, dest) {
   });
 }
 
+async function downloadThumbnail(id, dest) {
+  const names = ["sddefault.webp", "maxresdefault.webp", "hqdefault.webp"];
+  let lastError;
+
+  for (const name of names) {
+    try {
+      await download(`https://i.ytimg.com/vi_webp/${id}/${name}`, dest);
+      return;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError;
+}
+
 async function main() {
   const targetFile = process.argv[2];
   const allIds = new Set();
@@ -70,9 +85,7 @@ async function main() {
     console.log(`Found ${allIds.size} unique YouTube IDs in content`);
   }
 
-  const missing = [...allIds].filter(
-    (id) => !fs.existsSync(path.join(YOUTUBE_DIR, `${id}.jpg`)) || !fs.existsSync(path.join(YOUTUBE_DIR, `${id}.webp`))
-  );
+  const missing = [...allIds].filter((id) => !fs.existsSync(path.join(YOUTUBE_DIR, `${id}.webp`)));
 
   if (missing.length === 0) {
     console.log("All thumbnails already present.");
@@ -84,12 +97,10 @@ async function main() {
   let ok = 0;
   let fail = 0;
   for (const id of missing) {
-    const jpgPath = path.join(YOUTUBE_DIR, `${id}.jpg`);
     const webpPath = path.join(YOUTUBE_DIR, `${id}.webp`);
     process.stdout.write(`  ${id} ... `);
     try {
-      await download(`https://img.youtube.com/vi/${id}/sddefault.jpg`, jpgPath);
-      execSync(`cwebp -q 80 "${jpgPath}" -o "${webpPath}"`, { stdio: "pipe" });
+      await downloadThumbnail(id, webpPath);
       console.log("ok");
       ok++;
     } catch (err) {
